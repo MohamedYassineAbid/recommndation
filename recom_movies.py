@@ -5,7 +5,8 @@ import pandas as pd
 import joblib
 from sklearn.metrics.pairwise import cosine_similarity
 import difflib
-import creds
+import os
+api_key = os.getenv('API_KEY')
 
 vectorizer = joblib.load('tfidf_vectorizer.pkl')
 data = pd.read_csv('movie_dataset.csv')
@@ -64,7 +65,7 @@ def get_movie_recommendations_with_posters(movie_name):
 
 
 def get_movie_poster(movie_title):
-    url = f'http://www.omdbapi.com/?apikey={creds.api_key}&t={movie_title}&plot=short&r=json'
+    url = f'http://www.omdbapi.com/?apikey={api_key}&t={movie_title}&plot=short&r=json'
     try:
         response = requests.get(url)
         response.raise_for_status()
