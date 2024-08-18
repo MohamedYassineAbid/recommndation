@@ -1,0 +1,6 @@
+joblib
+requests
+pandas
+scikit-learn
+streamlit
+plotly
