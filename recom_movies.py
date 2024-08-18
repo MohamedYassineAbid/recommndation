@@ -6,7 +6,8 @@ import joblib
 from sklearn.metrics.pairwise import cosine_similarity
 import difflib
 import creds
-
+import os
+api_key = os.getenv('api_key')
 vectorizer = joblib.load('tfidf_vectorizer.pkl')
 data = pd.read_csv('movie_dataset.csv')
 
