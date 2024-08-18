@@ -61,7 +61,7 @@ def get_movie_recommendations(movie_name):
     return recommendations
 
 def get_movie_poster(movie_title):
-    url = f'http://www.omdbapi.com/?apikey={creds.api_key}&t={movie_title}&plot=short&r=json'
+    url = f'http://www.omdbapi.com/?apikey={api_key}&t={movie_title}&plot=short&r=json'
 
     try:
         response = requests.get(url)
