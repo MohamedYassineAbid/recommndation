@@ -9,21 +9,19 @@ st.set_page_config(
 import json
 import requests
 import pandas as pd
-import joblib
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
 import difflib
 import os
 
 api_key = os.getenv('api_key')
-
-vectorizer = joblib.load('tfidf_vectorizer.pkl')
+vectorizer = TfidfVectorizer()
 data = pd.read_csv('movie_dataset.csv')
-
 data.fillna('', inplace=True)
 combined_features = data['genres'] + ' ' + data['keywords'] + ' ' + data['tagline'] + ' ' + data['cast'] + ' ' + data['director'] + ' ' + data['original_language'] + ' ' + data['original_title'] + ' ' + data['production_countries'] + ' ' + data['title']
-feature_vectors = vectorizer.transform(combined_features)
+feature_vectors = vectorizer.fit_transform(combined_features)
 similarity = cosine_similarity(feature_vectors)
-
+#display recommmendations
 def display_recommendations(recommendations):
     if isinstance(recommendations, str):
         st.error(recommendations)
@@ -38,6 +36,8 @@ def display_recommendations(recommendations):
                     st.write("No poster available")
             with col2:
                 st.write(f"{i}. {title}")
+
+#getting the recommended movie poster
 
 def get_movie_recommendations_with_posters(movie_name):
     if len(movie_name) < 2:
@@ -69,6 +69,7 @@ def get_movie_recommendations_with_posters(movie_name):
 
     return movies_with_posters
 
+#getting movie 's poster from omdb api
 def get_movie_poster(movie_title):
     url = f'http://www.omdbapi.com/?apikey={api_key}&t={movie_title}&plot=short&r=json'
     try:
